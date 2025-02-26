@@ -1,0 +1,15 @@
+**/__pycache__
+__pycache__
+*.pyc
+.idea
+build
+dist
+*.zip
+**node_modules
+.aws-sam
+.flake8
+.vscode
+venv
+**/.DS_Store
+.VSCodeCounter
+*.pkl
