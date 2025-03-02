@@ -11,3 +11,6 @@ class SensorData(Base):
     sensor_type = Column(String, nullable=False)
     value = Column(Float, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

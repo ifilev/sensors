@@ -16,6 +16,6 @@ class DataGenerator(BaseProvider):
         """Generates the numbers for every sensor we have in the list with sensor types"""
         data = []
         for sensor in SENSOR_TYPES:
-            value = random.uniform(20, 30) if sensor.name == "temperature" else random.uniform(30, 80)
+            value = round(random.uniform(20, 30), 1) if sensor.name == "temperature" else round(random.uniform(30, 60), 2)
             data.append(SensorData(sensor_type=sensor.name, value=value))
         return data
