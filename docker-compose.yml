@@ -1,0 +1,45 @@
+version: '2.4'
+services:
+  backend:
+    build: ./
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://ivan:qwerty@db/sensordb
+    volumes:
+      - ./:/app
+    restart: always
+
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ivan
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: sensordb
+    ports:
+      - "5432:5432"
+
+  frontend:
+    build: ./sensor-dashboard
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=qwerty
+    user: "0"
+    volumes:
+      - ./sensor-dashboard/grafana/provisioning/:/etc/grafana/provisioning/
+      - ./sensor-dashboard/grafana/ini_conf/:/etc/grafana/
+      - ./sensor-dashboard/grafana/dashboard-definitions:/var/lib/grafana/dashboards

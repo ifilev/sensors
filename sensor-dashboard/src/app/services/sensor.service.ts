@@ -13,25 +13,16 @@ export class SensorService {
 
   constructor(private http: HttpClient) {}
 
+  // Fetch sensor data from the DB, by default 10 last records
   getSensorData(): Observable<any> {
     return this.http.get<any>(this.apiUrl + '/sensor_data');
   }
 
-//   connectToRealTime(): WebSocketSubject<any> {
-//     if (!this.socket$ || this.socket$.closed) {
-//       this.socket$ = new WebSocketSubject({
-//         url: `${this.apiUrl.replace('http', 'ws')}/realtime`,
-//         deserializer: (e) => JSON.parse(e.data), // Fix JSON deserialization
-//       });
-//     }
-//     return this.socket$;
-//   }
-
+  // opens a web socket
   connectToRealTime(): WebSocketSubject<any> {
     if (!this.socket$) {
       this.socket$ = new WebSocketSubject(`${this.apiUrl.replace('http', 'ws')}/realtime`);
     }
-    console.log(this.socket$)
     return this.socket$;
   }
 

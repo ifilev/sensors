@@ -13,4 +13,8 @@ class SensorData(Base):
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
 
     def as_dict(self):
+        """
+        Deserialize the db entities.
+        :return: dict
+        """
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}

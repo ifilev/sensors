@@ -20,14 +20,17 @@ export class SensorDashboardComponent implements OnInit, OnDestroy {
   constructor(private sanitizer: DomSanitizer, private sensorService: SensorService) {}
 
   ngOnInit(): void {
+    // Grafana url
     const url = "http://localhost:3000/d/e683ceaf-93fa-48c8-a165-5f6249d3bc78/sensors?orgId=1&from=now-15m&to=now&refresh=auto&viewPanel=1"
+    // link for the iframe
     this.grafanaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
+    // subscribe for the web socket and receive data
     this.socketSubscription = this.sensorService.connectToRealTime().subscribe((data) => {
-      console.log(data)
       this.sensorData = [...this.sensorData, ...data];
-      console.log(this.sensorData)
+      // show only 10 records by default in the table
       if (this.sensorData.length > data.length) {
+        // replace the old records with the new ones
         this.sensorData = this.sensorData.slice(data.length);
       }
     },

@@ -24,8 +24,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "postgres",
-        "uid": "a5a8b85d-c901-4296-9fd5-4d16936b7a54"
+        "type": "grafana-postgresql-datasource",
+        "uid": ""
       },
       "fieldConfig": {
         "defaults": {
@@ -308,7 +308,7 @@
           "table": "sensor_data"
         }
       ],
-      "title": "Panel Title",
+      "title": "Sensors dashboard",
       "transformations": [],
       "type": "timeseries"
     }

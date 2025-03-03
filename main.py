@@ -1,14 +1,23 @@
 from fastapi import FastAPI
-import data_providers.data_generator
 from fastapi.middleware.cors import CORSMiddleware
 from repository.db import engine, Base
 from api.router import router
+import logging
+from os import path
+from datetime import datetime
 
-# Create tables
+# Create the tables
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
-#data_provider = data_providers.data_generator.DataGenerator()
 
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - [%(levelname)s]: %(message)s")
+logger = logging.getLogger("sensors-fastapi")
+logger.addHandler(logging.StreamHandler())
+logger.addHandler(
+    logging.FileHandler(path.join('logs', f"{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.log"))
+)
+
+# handle CORS policies
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4200", "ws://localhost:4200", "http://127.0.0.1:4200", "ws://127.0.0.1:4200"],
